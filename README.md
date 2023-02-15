@@ -1,4 +1,3 @@
-[✔]: assets/images/checkbox-small-blue.png
 # Node.js Best Practices
 
 
