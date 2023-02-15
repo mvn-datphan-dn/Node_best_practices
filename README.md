@@ -1,5 +1,6 @@
-# Node.js Best Practices
+# [Node.js] Coding Convention and Best Practices
 
+## P/s: https://github.com/goldbergyoni/nodebestpractices.git
 
 ## Table of Contents
 
@@ -174,7 +175,7 @@
 
 # `1. Project Structure Practices`
 
-## ![✔] 1.1 Structure your solution by components
+##  1.1 Structure your solution by components
 
 **TL;DR:** The worst large applications pitfall is maintaining a huge code base with hundreds of dependencies - such a monolith slows down developers as they try to incorporate new features. Instead, partition your code into components, each gets its folder or a dedicated codebase, and ensure that each unit is kept small and simple. Visit 'Read More' below to see examples of correct project structure
 
@@ -184,7 +185,7 @@
 
 <br/><br/>
 
-## ![✔] 1.2 Layer your components, keep the web layer within its boundaries
+##  1.2 Layer your components, keep the web layer within its boundaries
 
 **TL;DR:** Each component should contain 'layers' - a dedicated object for the web, logic, and data access code. This not only draws a clean separation of concerns but also significantly eases mocking and testing the system. Though this is a very common pattern, API developers tend to mix layers by passing the web layer objects (e.g. Express req, res) to business logic and data layers - this makes your application dependent on and accessible only by specific web frameworks
 
@@ -194,7 +195,7 @@
 
 <br/><br/>
 
-## ![✔] 1.3 Wrap common utilities as npm packages
+##  1.3 Wrap common utilities as npm packages
 
 **TL;DR:** In a large app that constitutes a large codebase, cross-cutting-concern utilities like a logger, encryption and alike, should be wrapped by your code and exposed as private npm packages. This allows sharing them among multiple codebases and projects
 
@@ -204,7 +205,7 @@
 
 <br/><br/>
 
-## ![✔] 1.4 Separate Express 'app' and 'server'
+##  1.4 Separate Express 'app' and 'server'
 
 **TL;DR:** Avoid the nasty habit of defining the entire [Express](https://expressjs.com/) app in a single huge file - separate your 'Express' definition to at least two files: the API declaration (app.js) and the networking concerns (WWW). For even better structure, locate your API declaration within components
 
@@ -214,7 +215,7 @@
 
 <br/><br/>
 
-## ![✔] 1.5 Use environment aware, secure and hierarchical config
+##  1.5 Use environment aware, secure and hierarchical config
 
 **TL;DR:** A perfect and flawless configuration setup should ensure (a) keys can be read from file AND from environment variable (b) secrets are kept outside committed code (c) config is hierarchical for easier findability. There are a few packages that can help tick most of those boxes like [rc](https://www.npmjs.com/package/rc), [nconf](https://www.npmjs.com/package/nconf), [config](https://www.npmjs.com/package/config), and [convict](https://www.npmjs.com/package/convict).
 
@@ -228,7 +229,7 @@
 
 # `2. Error Handling Practices`
 
-## ![✔] 2.1 Use Async-Await or promises for async error handling
+##  2.1 Use Async-Await or promises for async error handling
 
 **TL;DR:** Handling async errors in callback style is probably the fastest way to hell (a.k.a the pyramid of doom). The best gift you can give to your code is using a reputable promise library or async-await instead which enables a much more compact and familiar code syntax like try-catch
 
@@ -238,7 +239,7 @@
 
 <br/><br/>
 
-## ![✔] 2.2 Use only the built-in Error object
+##  2.2 Use only the built-in Error object
 
 **TL;DR:** Many throw errors as a string or as some custom type – this complicates the error handling logic and the interoperability between modules. Whether you reject a promise, throw an exception or emit an error – using only the built-in Error object (or an object that extends the built-in Error object) will increase uniformity and prevent loss of information. There is `no-throw-literal` ESLint rule that strictly checks that (although it has some [limitations](https://eslint.org/docs/rules/no-throw-literal) which can be solved when using TypeScript and setting the `@typescript-eslint/no-throw-literal` rule)
 
@@ -248,7 +249,7 @@
 
 <br/><br/>
 
-## ![✔] 2.3 Distinguish operational vs programmer errors
+##  2.3 Distinguish operational vs programmer errors
 
 **TL;DR:** Operational errors (e.g. API received an invalid input) refer to known cases where the error impact is fully understood and can be handled thoughtfully. On the other hand, programmer error (e.g. trying to read an undefined variable) refers to unknown code failures that dictate to gracefully restart the application
 
@@ -258,7 +259,7 @@
 
 <br/><br/>
 
-## ![✔] 2.4 Handle errors centrally, not within a middleware
+##  2.4 Handle errors centrally, not within a middleware
 
 **TL;DR:** Error handling logic such as mail to admin and logging should be encapsulated in a dedicated and centralized object that all endpoints (e.g. Express middleware, cron jobs, unit-testing) call when an error comes in
 
@@ -268,7 +269,7 @@
 
 <br/><br/>
 
-## ![✔] 2.5 Document API errors using Swagger or GraphQL
+##  2.5 Document API errors using Swagger or GraphQL
 
 **TL;DR:** Let your API callers know which errors might come in return so they can handle these thoughtfully without crashing. For RESTful APIs, this is usually done with documentation frameworks like Swagger. If you're using GraphQL, you can utilize your schema and comments as well.
 
@@ -278,7 +279,7 @@
 
 <br/><br/>
 
-## ![✔] 2.6 Exit the process gracefully when a stranger comes to town
+##  2.6 Exit the process gracefully when a stranger comes to town
 
 **TL;DR:** When an unknown error occurs (a developer error, see best practice 2.3) - there is uncertainty about the application healthiness. Common practice suggests restarting the process carefully using a process management tool like [Forever](https://www.npmjs.com/package/forever) or [PM2](http://pm2.keymetrics.io/)
 
@@ -288,7 +289,7 @@
 
 <br/><br/>
 
-## ![✔] 2.7 Use a mature logger to increase error visibility
+##  2.7 Use a mature logger to increase error visibility
 
 **TL;DR:** A set of mature logging tools like [Pino](https://github.com/pinojs/pino) or [Log4js](https://www.npmjs.com/package/log4js), will speed-up error discovery and understanding. So forget about console.log
 
@@ -298,7 +299,7 @@
 
 <br/><br/>
 
-## ![✔] 2.8 Test error flows using your favorite test framework
+##  2.8 Test error flows using your favorite test framework
 
 **TL;DR:** Whether professional automated QA or plain manual developer testing – Ensure that your code not only satisfies positive scenarios but also handles and returns the right errors. Testing frameworks like Mocha & Chai can handle this easily (see code examples within the "Gist popup")
 
@@ -308,7 +309,7 @@
 
 <br/><br/>
 
-## ![✔] 2.9 Discover errors and downtime using APM products
+##  2.9 Discover errors and downtime using APM products
 
 **TL;DR:** Monitoring and performance products (a.k.a APM) proactively gauge your codebase or API so they can automagically highlight errors, crashes, and slow parts that you were missing
 
@@ -318,7 +319,7 @@
 
 <br/><br/>
 
-## ![✔] 2.10 Catch unhandled promise rejections
+##  2.10 Catch unhandled promise rejections
 
 **TL;DR:** Any exception thrown within a promise will get swallowed and discarded unless a developer didn’t forget to explicitly handle it. Even if your code is subscribed to `process.uncaughtException`! Overcome this by registering to the event `process.unhandledRejection`
 
@@ -328,7 +329,7 @@
 
 <br/><br/>
 
-## ![✔] 2.11 Fail fast, validate arguments using a dedicated library
+##  2.11 Fail fast, validate arguments using a dedicated library
 
 **TL;DR:** Assert API input to avoid nasty bugs that are much harder to track later. The validation code is usually tedious unless you are using a very cool helper library like [ajv](https://www.npmjs.com/package/ajv) and [Joi](https://www.npmjs.com/package/joi)
 
@@ -338,7 +339,7 @@
 
 <br/><br/>
 
-## ![✔] 2.12 Always await promises before returning to avoid a partial stacktrace
+##  2.12 Always await promises before returning to avoid a partial stacktrace
 
 **TL;DR:** Always do `return await` when returning a promise to benefit full error stacktrace. If a
 function returns a promise, that function must be declared as `async` function and explicitly
@@ -356,7 +357,7 @@ especially if the cause of the abnormal behavior is inside of the missing functi
 
 # `3. Code Style Practices`
 
-## ![✔] 3.1 Use ESLint
+##  3.1 Use ESLint
 
 **TL;DR:** [ESLint](https://eslint.org) is the de-facto standard for checking possible code errors and fixing code style, not only to identify nitty-gritty spacing issues but also to detect serious code anti-patterns like developers throwing errors without classification. Though ESLint can automatically fix code styles, other tools like [prettier](https://www.npmjs.com/package/prettier) and [beautify](https://www.npmjs.com/package/js-beautify) are more powerful in formatting the fix and work in conjunction with ESLint
 
@@ -366,7 +367,7 @@ especially if the cause of the abnormal behavior is inside of the missing functi
 
 <br/><br/>
 
-## ![✔] 3.2 Node.js specific plugins
+##  3.2 Node.js specific plugins
 
 **TL;DR:** On top of ESLint standard rules that cover vanilla JavaScript, add Node.js specific plugins like [eslint-plugin-node](https://www.npmjs.com/package/eslint-plugin-node), [eslint-plugin-mocha](https://www.npmjs.com/package/eslint-plugin-mocha) and [eslint-plugin-node-security](https://www.npmjs.com/package/eslint-plugin-security)
 
@@ -374,7 +375,7 @@ especially if the cause of the abnormal behavior is inside of the missing functi
 
 <br/><br/>
 
-## ![✔] 3.3 Start a Codeblock's Curly Braces on the Same Line
+##  3.3 Start a Codeblock's Curly Braces on the Same Line
 
 **TL;DR:** The opening curly braces of a code block should be on the same line as the opening statement
 
@@ -399,7 +400,7 @@ function someFunction()
 
 <br/><br/>
 
-## ![✔] 3.4 Separate your statements properly
+##  3.4 Separate your statements properly
 
 No matter if you use semicolons or not to separate your statements, knowing the common pitfalls of improper linebreaks or automatic semicolon insertion, will help you to eliminate regular syntax errors.
 
@@ -443,7 +444,7 @@ const count = 2 // it tries to run 2(), but 2 is not a function
 
 <br/><br/>
 
-## ![✔] 3.5 Name your functions
+##  3.5 Name your functions
 
 **TL;DR:** Name all functions, including closures and callbacks. Avoid anonymous functions. This is especially useful when profiling a node app. Naming all functions will allow you to easily understand what you're looking at when checking a memory snapshot
 
@@ -451,7 +452,7 @@ const count = 2 // it tries to run 2(), but 2 is not a function
 
 <br/><br/>
 
-## ![✔] 3.6 Use naming conventions for variables, constants, functions and classes
+##  3.6 Use naming conventions for variables, constants, functions and classes
 
 **TL;DR:** Use **_lowerCamelCase_** when naming constants, variables and functions, **_UpperCamelCase_** (capital first letter as well) when naming classes and **_UPPER_SNAKE_CASE_** when naming global or static variables. This will help you to easily distinguish between plain variables, functions, classes that require instantiation and variables declared at global module scope. Use descriptive names, but try to keep them short
 
@@ -492,7 +493,7 @@ function doSomething() {
 
 <br/><br/>
 
-## ![✔] 3.7 Prefer const over let. Ditch the var
+##  3.7 Prefer const over let. Ditch the var
 
 **TL;DR:** Using `const` means that once a variable is assigned, it cannot be reassigned. Preferring `const` will help you to not be tempted to use the same variable for different uses, and make your code clearer. If a variable needs to be reassigned, in a for loop, for example, use `let` to declare it. Another important aspect of `let` is that a variable declared using it is only available in the block scope in which it was defined. `var` is function scoped, not block-scoped, and [shouldn't be used in ES6](https://hackernoon.com/why-you-shouldnt-use-var-anymore-f109a58b9b70) now that you have `const` and `let` at your disposal
 
@@ -502,7 +503,7 @@ function doSomething() {
 
 <br/><br/>
 
-## ![✔] 3.8 Require modules first, not inside functions
+##  3.8 Require modules first, not inside functions
 
 **TL;DR:** Require modules at the beginning of each file, before and outside of any functions. This simple best practice will not only help you easily and quickly tell the dependencies of a file right at the top but also avoids a couple of potential problems
 
@@ -510,7 +511,7 @@ function doSomething() {
 
 <br/><br/>
 
-## ![✔] 3.9 Require modules by folders, as opposed to the files directly
+##  3.9 Require modules by folders, as opposed to the files directly
 
 **TL;DR:** When developing a module/library in a folder, place an index.js file that exposes the module's internals so every consumer will pass through it. This serves as an 'interface' to your module and eases future changes without breaking the contract
 
@@ -530,7 +531,7 @@ module.exports.SMSNumberResolver = require("./SMSNumberResolver/SMSNumberResolve
 
 <br/><br/>
 
-## ![✔] 3.10 Use the `===` operator
+##  3.10 Use the `===` operator
 
 **TL;DR:** Prefer the strict equality operator `===` over the weaker abstract equality operator `==`. `==` will compare two variables after converting them to a common type. There is no type conversion in `===`, and both variables must be of the same type to be equal
 
@@ -557,7 +558,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 3.11 Use Async Await, avoid callbacks
+##  3.11 Use Async Await, avoid callbacks
 
 **TL;DR:** Node 8 LTS now has full support for Async-await. This is a new way of dealing with asynchronous code which supersedes callbacks and promises. Async-await is non-blocking, and it makes asynchronous code look synchronous. The best gift you can give to your code is using async-await which provides a much more compact and familiar code syntax like try-catch
 
@@ -567,7 +568,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 3.12 Use arrow function expressions (=>)
+##  3.12 Use arrow function expressions (=>)
 
 **TL;DR:** Though it's recommended to use async-await and avoid function parameters when dealing with older APIs that accept promises or callbacks - arrow functions make the code structure more compact and keep the lexical context of the root function (i.e. `this`)
 
@@ -581,7 +582,7 @@ All statements above will return false if used with `===`
 
 # `4. Testing And Overall Quality Practices`
 
-## ![✔] 4.1 At the very least, write API (component) testing
+##  4.1 At the very least, write API (component) testing
 
 **TL;DR:** Most projects just don't have any automated testing due to short timetables or often the 'testing project' ran out of control and was abandoned. For that reason, prioritize and start with API testing which is the easiest way to write and provides more coverage than unit testing (you may even craft API tests without code using tools like [Postman](https://www.getpostman.com/)). Afterwards, should you have more resources and time, continue with advanced test types like unit testing, DB testing, performance testing, etc
 
@@ -589,7 +590,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.2 Include 3 parts in each test name
+##  4.2 Include 3 parts in each test name
 
 **TL;DR:** Make the test speak at the requirements level so it's self-explanatory also to QA engineers and developers who are not familiar with the code internals. State in the test name what is being tested (unit under test), under what circumstances, and what is the expected result
 
@@ -599,7 +600,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.3 Structure tests by the AAA pattern
+##  4.3 Structure tests by the AAA pattern
 
 **TL;DR:** Structure your tests with 3 well-separated sections: Arrange, Act & Assert (AAA). The first part includes the test setup, then the execution of the unit under test, and finally the assertion phase. Following this structure guarantees that the reader spends no brain CPU on understanding the test plan
 
@@ -609,7 +610,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.4 Detect code issues with a linter
+##  4.4 Detect code issues with a linter
 
 **TL;DR:** Use a code linter to check the basic quality and detect anti-patterns early. Run it before any test and add it as a pre-commit git-hook to minimize the time needed to review and correct any issue. Also check [Section 3](#3-code-style-practices) on Code Style Practices
 
@@ -617,7 +618,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.5 Avoid global test fixtures and seeds, add data per-test
+##  4.5 Avoid global test fixtures and seeds, add data per-test
 
 **TL;DR:** To prevent test coupling and easily reason about the test flow, each test should add and act on its own set of DB rows. Whenever a test needs to pull or assume the existence of some DB data - it must explicitly add that data and avoid mutating any other records
 
@@ -627,7 +628,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.6 Constantly inspect for vulnerable dependencies
+##  4.6 Constantly inspect for vulnerable dependencies
 
 **TL;DR:** Even the most reputable dependencies such as Express have known vulnerabilities. This can get easily tamed using community and commercial tools such as 🔗 [npm audit](https://docs.npmjs.com/cli/audit) and 🔗 [snyk.io](https://snyk.io) that can be invoked from your CI on every build
 
@@ -635,7 +636,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.7 Tag your tests
+##  4.7 Tag your tests
 
 **TL;DR:** Different tests must run on different scenarios: quick smoke, IO-less, tests should run when a developer saves or commits a file, full end-to-end tests usually run when a new pull request is submitted, etc. This can be achieved by tagging tests with keywords like #cold #api #sanity so you can grep with your testing harness and invoke the desired subset. For example, this is how you would invoke only the sanity test group with [Mocha](https://mochajs.org/): mocha --grep 'sanity'
 
@@ -643,7 +644,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.8 Check your test coverage, it helps to identify wrong test patterns
+##  4.8 Check your test coverage, it helps to identify wrong test patterns
 
 **TL;DR:** Code coverage tools like [Istanbul](https://github.com/istanbuljs/istanbuljs)/[NYC](https://github.com/istanbuljs/nyc) are great for 3 reasons: it comes for free (no effort is required to benefit this reports), it helps to identify a decrease in testing coverage, and last but not least it highlights testing mismatches: by looking at colored code coverage reports you may notice, for example, code areas that are never tested like catch clauses (meaning that tests only invoke the happy paths and not how the app behaves on errors). Set it to fail builds if the coverage falls under a certain threshold
 
@@ -651,7 +652,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.9 Inspect for outdated packages
+##  4.9 Inspect for outdated packages
 
 **TL;DR:** Use your preferred tool (e.g. `npm outdated` or [npm-check-updates](https://www.npmjs.com/package/npm-check-updates)) to detect installed outdated packages, inject this check into your CI pipeline and even make a build fail in a severe scenario. For example, a severe scenario might be when an installed package is 5 patch commits behind (e.g. local version is 1.3.1 and repository version is 1.3.8) or it is tagged as deprecated by its author - kill the build and prevent deploying this version
 
@@ -659,7 +660,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.10 Use production-like environment for e2e testing
+##  4.10 Use production-like environment for e2e testing
 
 **TL;DR:** End to end (e2e) testing which includes live data used to be the weakest link of the CI process as it depends on multiple heavy services like DB. Use an environment which is as close to your real production environment as possible like a-continue (Missed -continue here, needs content. Judging by the **Otherwise** clause, this should mention docker-compose)
 
@@ -667,7 +668,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.11 Refactor regularly using static analysis tools
+##  4.11 Refactor regularly using static analysis tools
 
 **TL;DR:** Using static analysis tools helps by giving objective ways to improve code quality and keeps your code maintainable. You can add static analysis tools to your CI build to fail when it finds code smells. Its main selling points over plain linting are the ability to inspect quality in the context of multiple files (e.g. detect duplications), perform advanced analysis (e.g. code complexity), and follow the history and progress of code issues. Two examples of tools you can use are [Sonarqube](https://www.sonarqube.org/) (2,600+ [stars](https://github.com/SonarSource/sonarqube)) and [Code Climate](https://codeclimate.com/) (1,500+ [stars](https://github.com/codeclimate/codeclimate)).
 
@@ -677,7 +678,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 4.12 Carefully choose your CI platform (Jenkins vs CircleCI vs Travis vs Rest of the world)
+##  4.12 Carefully choose your CI platform (Jenkins vs CircleCI vs Travis vs Rest of the world)
 
 **TL;DR:** Your continuous integration platform (CICD) will host all the quality tools (e.g. test, lint) so it should come with a vibrant ecosystem of plugins. [Jenkins](https://jenkins.io/) used to be the default for many projects as it has the biggest community along with a very powerful platform at the price of a complex setup that demands a steep learning curve. Nowadays, it has become much easier to set up a CI solution using SaaS tools like [CircleCI](https://circleci.com) and others. These tools allow crafting a flexible CI pipeline without the burden of managing the whole infrastructure. Eventually, it's a trade-off between robustness and speed - choose your side carefully
 
@@ -685,7 +686,7 @@ All statements above will return false if used with `===`
 
 🔗 [**Read More: Choosing CI platform**](./sections/testingandquality/citools.md)
 
-## ![✔] 4.13 Test your middlewares in isolation
+##  4.13 Test your middlewares in isolation
 
 **TL;DR:** When a middleware holds some immense logic that spans many requests, it is worth testing it in isolation without waking up the entire web framework. This can be easily achieved by stubbing and spying on the {req, res, next} objects
 
@@ -699,7 +700,7 @@ All statements above will return false if used with `===`
 
 # `5. Going To Production Practices`
 
-## ![✔] 5.1. Monitoring
+##  5.1. Monitoring
 
 **TL;DR:** Monitoring is a game of finding out issues before customers do – obviously this should be assigned unprecedented importance. The market is overwhelmed with offers thus consider starting with defining the basic metrics you must follow (my suggestions inside), then go over additional fancy features and choose the solution that ticks all boxes. Click ‘The Gist’ below for an overview of the solutions
 
@@ -709,7 +710,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.2. Increase transparency using smart logging
+##  5.2. Increase transparency using smart logging
 
 **TL;DR:** Logs can be a dumb warehouse of debug statements or the enabler of a beautiful dashboard that tells the story of your app. Plan your logging platform from day 1: how logs are collected, stored and analyzed to ensure that the desired information (e.g. error rate, following an entire transaction through services and servers, etc) can really be extracted
 
@@ -719,7 +720,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.3. Delegate anything possible (e.g. gzip, SSL) to a reverse proxy
+##  5.3. Delegate anything possible (e.g. gzip, SSL) to a reverse proxy
 
 **TL;DR:** Node is awfully bad at doing CPU intensive tasks like gzipping, SSL termination, etc. You should use ‘real’ middleware services like nginx, HAproxy or cloud vendor services instead
 
@@ -729,7 +730,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.4. Lock dependencies
+##  5.4. Lock dependencies
 
 **TL;DR:** Your code must be identical across all environments, but amazingly npm lets dependencies drift across environments by default – when you install packages at various environments it tries to fetch packages’ latest patch version. Overcome this by using npm config files, .npmrc, that tell each environment to save the exact (not the latest) version of each package. Alternatively, for finer grained control use `npm shrinkwrap`. \*Update: as of NPM5, dependencies are locked by default. The new package manager in town, Yarn, also got us covered by default
 
@@ -739,7 +740,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.5. Guard process uptime using the right tool
+##  5.5. Guard process uptime using the right tool
 
 **TL;DR:** The process must go on and get restarted upon failures. For simple scenarios, process management tools like PM2 might be enough but in today's ‘dockerized’ world, cluster management tools should be considered as well
 
@@ -749,7 +750,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.6. Utilize all CPU cores
+##  5.6. Utilize all CPU cores
 
 **TL;DR:** At its basic form, a Node app runs on a single CPU core while all others are left idling. It’s your duty to replicate the Node process and utilize all CPUs – For small-medium apps you may use Node Cluster or PM2. For a larger app consider replicating the process using some Docker cluster (e.g. K8S, ECS) or deployment scripts that are based on Linux init system (e.g. systemd)
 
@@ -759,7 +760,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.7. Create a ‘maintenance endpoint’
+##  5.7. Create a ‘maintenance endpoint’
 
 **TL;DR:** Expose a set of system-related information, like memory usage and REPL, etc in a secured API. Although it’s highly recommended to rely on standard and battle-tested tools, some valuable information and operations are easier done using code
 
@@ -769,7 +770,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.8. Discover errors and downtime using APM products
+##  5.8. Discover errors and downtime using APM products
 
 **TL;DR:** Application monitoring and performance products (a.k.a. APM) proactively gauge codebase and API so they can auto-magically go beyond traditional monitoring and measure the overall user-experience across services and tiers. For example, some APM products can highlight a transaction that loads too slow on the end-user's side while suggesting the root cause
 
@@ -779,7 +780,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.9. Make your code production-ready
+##  5.9. Make your code production-ready
 
 **TL;DR:** Code with the end in mind, plan for production from day 1. This sounds a bit vague so I’ve compiled a few development tips that are closely related to production maintenance (click Gist below)
 
@@ -789,7 +790,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.10. Measure and guard the memory usage
+##  5.10. Measure and guard the memory usage
 
 **TL;DR:** Node.js has controversial relationships with memory: the v8 engine has soft limits on memory usage (1.4GB) and there are known paths to leak memory in Node’s code – thus watching Node’s process memory is a must. In small apps, you may gauge memory periodically using shell commands but in medium-large apps consider baking your memory watch into a robust monitoring system
 
@@ -799,7 +800,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.11. Get your frontend assets out of Node
+##  5.11. Get your frontend assets out of Node
 
 **TL;DR:** Serve frontend content using dedicated middleware (nginx, S3, CDN) because Node performance really gets hurt when dealing with many static files due to its single-threaded model
 
@@ -809,7 +810,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.12. Be stateless, kill your servers almost every day
+##  5.12. Be stateless, kill your servers almost every day
 
 **TL;DR:** Store any type of data (e.g. user sessions, cache, uploaded files) within external data stores. Consider ‘killing’ your servers periodically or use ‘serverless’ platform (e.g. AWS Lambda) that explicitly enforces a stateless behavior
 
@@ -819,7 +820,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.13. Use tools that automatically detect vulnerabilities
+##  5.13. Use tools that automatically detect vulnerabilities
 
 **TL;DR:** Even the most reputable dependencies such as Express have known vulnerabilities (from time to time) that can put a system at risk. This can be easily tamed using community and commercial tools that constantly check for vulnerabilities and warn (locally or at GitHub), some can even patch them immediately
 
@@ -829,7 +830,7 @@ All statements above will return false if used with `===`
 
 <br/><br/>
 
-## ![✔] 5.14. Assign a transaction id to each log statement
+##  5.14. Assign a transaction id to each log statement
 
 Also known as correlation id / transit id / tracing id / request id / request context / etc.
 
@@ -841,7 +842,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 5.15. Set `NODE_ENV=production`
+##  5.15. Set `NODE_ENV=production`
 
 **TL;DR:** Set the environment variable `NODE_ENV` to ‘production’ or ‘development’ to flag whether production optimizations should get activated – many npm packages determine the current environment and optimize their code for production
 
@@ -851,7 +852,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 5.16. Design automated, atomic and zero-downtime deployments
+##  5.16. Design automated, atomic and zero-downtime deployments
 
 **TL;DR:** Research shows that teams who perform many deployments lower the probability of severe production issues. Fast and automated deployments that don’t require risky manual steps and service downtime significantly improve the deployment process. You should probably achieve this using Docker combined with CI tools as they became the industry standard for streamlined deployment
 
@@ -859,7 +860,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 5.17. Use an LTS release of Node.js
+##  5.17. Use an LTS release of Node.js
 
 **TL;DR:** Ensure you are using an LTS version of Node.js to receive critical bug fixes, security updates and performance improvements
 
@@ -869,7 +870,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 5.18. Don't route logs within the app
+##  5.18. Don't route logs within the app
 
 **TL;DR:** Log destinations should not be hard-coded by developers within the application code, but instead should be defined by the execution environment the application runs in. Developers should write logs to `stdout` using a logger utility and then let the execution environment (container, server, etc.) pipe the `stdout` stream to the appropriate destination (i.e. Splunk, Graylog, ElasticSearch, etc.).
 
@@ -879,7 +880,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 5.19. Install your packages with `npm ci`
+##  5.19. Install your packages with `npm ci`
 
 **TL;DR:** You have to be sure that production code uses the exact version of the packages you have tested it with. Run `npm ci` to strictly do a clean install of your dependencies matching package.json and package-lock.json. Using this command is recommended in automated environments such as continuous integration pipelines.
 
@@ -897,7 +898,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 <img src="https://img.shields.io/badge/OWASP%20Threats-Top%2010-green.svg" alt="54 items"/>
 </div>
 
-## ![✔] 6.1. Embrace linter security rules
+##  6.1. Embrace linter security rules
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A1:Injection%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20XSS%20-green.svg" alt=""/></a>
 
@@ -909,7 +910,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.2. Limit concurrent requests using a middleware
+##  6.2. Limit concurrent requests using a middleware
 
 <a href="https://www.owasp.org/index.php/Denial_of_Service" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20DDOS%20-green.svg" alt=""/></a>
 
@@ -921,7 +922,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.3 Extract secrets from config files or use packages to encrypt them
+##  6.3 Extract secrets from config files or use packages to encrypt them
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A6-Security_Misconfiguration" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A6:Security%20Misconfiguration%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A3-Sensitive_Data_Exposure" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A3:Sensitive%20Data%20Exposure%20-green.svg" alt=""/></a>
 
@@ -933,7 +934,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.4. Prevent query injection vulnerabilities with ORM/ODM libraries
+##  6.4. Prevent query injection vulnerabilities with ORM/ODM libraries
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A1:Injection%20-green.svg" alt=""/></a>
 
@@ -945,7 +946,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.5. Collection of generic security best practices
+##  6.5. Collection of generic security best practices
 
 **TL;DR:** This is a collection of security advice that is not related directly to Node.js - the Node implementation is not much different than any other language. Click read more to skim through.
 
@@ -953,7 +954,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.6. Adjust the HTTP response headers for enhanced security
+##  6.6. Adjust the HTTP response headers for enhanced security
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A6-Security_Misconfiguration" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A6:Security%20Misconfiguration%20-green.svg" alt=""/></a>
 
@@ -965,7 +966,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.7. Constantly and automatically inspect for vulnerable dependencies
+##  6.7. Constantly and automatically inspect for vulnerable dependencies
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A9:Known%20Vulnerabilities%20-green.svg" alt=""/></a>
 
@@ -977,7 +978,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.8. Protect Users' Passwords/Secrets using bcrypt or scrypt
+##  6.8. Protect Users' Passwords/Secrets using bcrypt or scrypt
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Authentication" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A9:Broken%20Authentication%20-green.svg" alt=""/></a>
 
@@ -989,7 +990,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.9. Escape HTML, JS and CSS output
+##  6.9. Escape HTML, JS and CSS output
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A7:XSS%20-green.svg" alt=""/></a>
 
@@ -1001,7 +1002,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.10. Validate incoming JSON schemas
+##  6.10. Validate incoming JSON schemas
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A7: XSS%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A8-Insecure_Deserialization" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A8:Insecured%20Deserialization%20-green.svg" alt=""/></a>
 
@@ -1013,7 +1014,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.11. Support blocklisting JWTs
+##  6.11. Support blocklisting JWTs
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Authentication" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A9:Broken%20Authentication%20-green.svg" alt=""/></a>
 
@@ -1025,7 +1026,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.12. Prevent brute-force attacks against authorization
+##  6.12. Prevent brute-force attacks against authorization
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Authentication" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A9:Broken%20Authentication%20-green.svg" alt=""/></a>
 
@@ -1040,7 +1041,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.13. Run Node.js as non-root user
+##  6.13. Run Node.js as non-root user
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A5:Broken%20Access%20Access%20Control-green.svg" alt=""/></a>
 
@@ -1052,7 +1053,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.14. Limit payload size using a reverse-proxy or a middleware
+##  6.14. Limit payload size using a reverse-proxy or a middleware
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A8-Insecure_Deserialization" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A8:Insecured%20Deserialization%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20DDOS%20-green.svg" alt=""/></a>
 
@@ -1064,7 +1065,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.15. Avoid JavaScript eval statements
+##  6.15. Avoid JavaScript eval statements
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A7:XSS%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A1:Injection%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A4-XML_External_Entities_(XXE)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A4:External%20Entities%20-green.svg" alt=""/></a>
 
@@ -1076,7 +1077,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.16. Prevent evil RegEx from overloading your single thread execution
+##  6.16. Prevent evil RegEx from overloading your single thread execution
 
 <a href="https://www.owasp.org/index.php/Denial_of_Service" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20DDOS%20-green.svg" alt=""/></a>
 
@@ -1088,7 +1089,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.17. Avoid module loading using a variable
+##  6.17. Avoid module loading using a variable
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A7:XSS%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A1:Injection%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A4-XML_External_Entities_(XXE)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A4:External%20Entities%20-green.svg" alt=""/></a>
 
@@ -1100,7 +1101,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.18. Run unsafe code in a sandbox
+##  6.18. Run unsafe code in a sandbox
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A7:XSS%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A1:Injection%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A4-XML_External_Entities_(XXE)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A4:External%20Entities%20-green.svg" alt=""/></a>
 
@@ -1112,7 +1113,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.19. Take extra care when working with child processes
+##  6.19. Take extra care when working with child processes
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A7:XSS%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A1:Injection%20-green.svg" alt=""/></a> <a href="https://www.owasp.org/index.php/Top_10-2017_A4-XML_External_Entities_(XXE)" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A4:External%20Entities%20-green.svg" alt=""/></a>
 
@@ -1124,7 +1125,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.20. Hide error details from clients
+##  6.20. Hide error details from clients
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A6-Security_Misconfiguration" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A6:Security%20Misconfiguration%20-green.svg" alt=""/></a>
 
@@ -1136,7 +1137,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.21. Configure 2FA for npm or Yarn
+##  6.21. Configure 2FA for npm or Yarn
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A6-Security_Misconfiguration" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A6:Security%20Misconfiguration%20-green.svg" alt=""/></a>
 
@@ -1146,7 +1147,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.22. Modify session middleware settings
+##  6.22. Modify session middleware settings
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A6-Security_Misconfiguration" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A6:Security%20Misconfiguration%20-green.svg" alt=""/></a>
 
@@ -1158,7 +1159,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.23. Avoid DOS attacks by explicitly setting when a process should crash
+##  6.23. Avoid DOS attacks by explicitly setting when a process should crash
 
 <a href="https://www.owasp.org/index.php/Denial_of_Service" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20DDOS%20-green.svg" alt=""/></a>
 
@@ -1168,7 +1169,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.24. Prevent unsafe redirects
+##  6.24. Prevent unsafe redirects
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A1:Injection%20-green.svg" alt=""/></a>
 
@@ -1180,7 +1181,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 6.25. Avoid publishing secrets to the npm registry
+##  6.25. Avoid publishing secrets to the npm registry
 
 <a href="https://www.owasp.org/index.php/Top_10-2017_A6-Security_Misconfiguration" target="_blank"><img src="https://img.shields.io/badge/%E2%9C%94%20OWASP%20Threats%20-%20A6:Security%20Misconfiguration%20-green.svg" alt=""/></a>
 
@@ -1199,7 +1200,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br/><br/>
 
-## ![✔] 7.1. Don't block the event loop
+##  7.1. Don't block the event loop
 
 **TL;DR:** Avoid CPU intensive tasks as they will block the mostly single-threaded Event Loop and offload those to a dedicated thread, process or even a different technology based on the context.
 
@@ -1209,7 +1210,7 @@ Also known as correlation id / transit id / tracing id / request id / request co
 
 <br /><br /><br />
 
-## ![✔] 7.2. Prefer native JS methods over user-land utils like Lodash
+##  7.2. Prefer native JS methods over user-land utils like Lodash
 
 **TL;DR:** It's often more penalising to use utility libraries like `lodash` and `underscore` over native methods as it leads to unneeded dependencies and slower performance.
 Bear in mind that with the introduction of the new V8 engine alongside the new ES standards, native methods were improved in such a way that it's now about 50% more performant than utility libraries.
@@ -1228,7 +1229,7 @@ Bear in mind that with the introduction of the new V8 engine alongside the new E
 
 <br/><br/>
 
-## ![✔] 8.1 Use multi-stage builds for leaner and more secure Docker images
+##  8.1 Use multi-stage builds for leaner and more secure Docker images
 
 **TL;DR:** Use multi-stage build to copy only necessary production artifacts. A lot of build-time dependencies and files are not needed for running your application. With multi-stage builds these resources can be used during build while the runtime environment contains only what's necessary. Multi-stage builds are an easy way to get rid of overweight and security threats.
 
@@ -1258,7 +1259,7 @@ CMD [ "node", "dist/app.js" ]
 
 <br /><br /><br />
 
-## ![✔] 8.2. Bootstrap using `node` command, avoid `npm start`
+##  8.2. Bootstrap using `node` command, avoid `npm start`
 
 **TL;DR:** use `CMD ['node','server.js']` to start your app, avoid using npm scripts which don't pass OS signals to the code. This prevents problems with child-processes, signal handling, graceful shutdown and having zombie processes.
 
@@ -1268,7 +1269,7 @@ CMD [ "node", "dist/app.js" ]
 
 <br /><br /><br />
 
-## ![✔] 8.3. Let the Docker runtime handle replication and uptime
+##  8.3. Let the Docker runtime handle replication and uptime
 
 **TL;DR:** When using a Docker run time orchestrator (e.g., Kubernetes), invoke the Node.js process directly without intermediate process managers or custom code that replicate the process (e.g. PM2, Cluster module). The runtime platform has the highest amount of data and visibility for making placement decision - It knows best how many processes are needed, how to spread them and what to do in case of crashes
 
@@ -1278,7 +1279,7 @@ CMD [ "node", "dist/app.js" ]
 
 <br/><br /><br />
 
-## ![✔] 8.4. Use .dockerignore to prevent leaking secrets
+##  8.4. Use .dockerignore to prevent leaking secrets
 
 **TL;DR**: Include a `.dockerignore` file that filters out common secret files and development artifacts. By doing so, you might prevent secrets from leaking into the image. As a bonus the build time will significantly decrease. Also, ensure not to copy all files recursively rather explicitly choose what should be copied to Docker
 
@@ -1288,7 +1289,7 @@ CMD [ "node", "dist/app.js" ]
 
 <br /><br /><br />
 
-## ![✔] 8.5. Clean-up dependencies before production
+##  8.5. Clean-up dependencies before production
 
 **TL;DR:** Although Dev-Dependencies are sometimes needed during the build and test life-cycle, eventually the image that is shipped to production should be minimal and clean from development dependencies. Doing so guarantees that only necessary code is shipped and the amount of potential attacks (i.e. attack surface) is minimized. When using multi-stage build (see dedicated bullet) this can be achieved by installing all dependencies first and finally running `npm ci --production`
 
@@ -1298,7 +1299,7 @@ CMD [ "node", "dist/app.js" ]
 
 <br /><br /><br />
 
-## ![✔] 8.6. Shutdown smartly and gracefully
+##  8.6. Shutdown smartly and gracefully
 
 **TL;DR:** Handle the process SIGTERM event and clean-up all existing connection and resources. This should be done while responding to ongoing requests. In Dockerized runtimes shutting down containers is not a rare event, rather a frequent occurrence that happen as part of routine work. Achieving this demands some thoughtful code to orchestrate several moving parts: The load balancer, keep-alive connections, the HTTP server and other resources
 
@@ -1308,7 +1309,7 @@ CMD [ "node", "dist/app.js" ]
 
 <br /><br /><br />
 
-## ![✔] 8.7. Set memory limits using both Docker and v8
+##  8.7. Set memory limits using both Docker and v8
 
 **TL;DR:** Always configure a memory limit using both Docker and the JavaScript runtime flags. The Docker limit is needed to make thoughtful container placement decision, the --v8's flag max-old-space is needed to kick off the GC on time and prevent under utilization of memory. Practically, set the v8's old space memory to be a just bit less than the container limit
 
@@ -1318,7 +1319,7 @@ CMD [ "node", "dist/app.js" ]
 
 <br /><br /><br />
 
-## ![✔] 8.8. Plan for efficient caching
+##  8.8. Plan for efficient caching
 
 **TL;DR:** Rebuilding a whole docker image from cache can be nearly instantaneous if done correctly. The less updated instructions should be at the top of your Dockerfile and the ones constantly changing (like app code) should be at the bottom.
 
@@ -1328,7 +1329,7 @@ CMD [ "node", "dist/app.js" ]
 
 <br /><br /><br />
 
-## ![✔] 8.9. Use explicit image reference, avoid `latest` tag
+##  8.9. Use explicit image reference, avoid `latest` tag
 
 **TL;DR:** Specify an explicit image digest or versioned label, never refer to `latest`. Developers are often led to believe that specifying the `latest` tag will provide them with the most recent image in the repository however this is not the case. Using a digest guarantees that every instance of the service is running exactly the same code.
 
@@ -1340,7 +1341,7 @@ In addition, referring to an image tag means that the base image is subject to c
 
 <br /><br /><br />
 
-## ![✔] 8.10. Prefer smaller Docker base images
+##  8.10. Prefer smaller Docker base images
 
 **TL;DR:** Large images lead to higher exposure to vulnerabilities and increased resource consumption. Using leaner Docker images, such as Slim and Alpine Linux variants, mitigates this issue.
 
@@ -1350,7 +1351,7 @@ In addition, referring to an image tag means that the base image is subject to c
 
 <br /><br /><br />
 
-## ![✔] 8.11. Clean-out build-time secrets, avoid secrets in args
+##  8.11. Clean-out build-time secrets, avoid secrets in args
 
 **TL;DR:** Avoid secrets leaking from the Docker build environment. A Docker image is typically shared in multiple environment like CI and a registry that are not as sanitized as production. A typical example is an npm token which is usually passed to a dockerfile as argument. This token stays within the image long after it is needed and allows the attacker indefinite access to a private npm registry. This can be avoided by coping a secret file like `.npmrc` and then removing it using multi-stage build (beware, build history should be deleted as well) or by using Docker build-kit secret feature which leaves zero traces
 
@@ -1360,7 +1361,7 @@ In addition, referring to an image tag means that the base image is subject to c
 
 <br /><br /><br />
 
-## ![✔] 8.12. Scan images for multi layers of vulnerabilities
+##  8.12. Scan images for multi layers of vulnerabilities
 
 **TL;DR:** Besides checking code dependencies vulnerabilities also scan the final image that is shipped to production. Docker image scanners check the code dependencies but also the OS binaries. This E2E security scan covers more ground and verifies that no bad guy injected bad things during the build. Consequently, it is recommended running this as the last step before deployment. There are a handful of free and commercial scanners that also provide CI/CD plugins
 
@@ -1370,7 +1371,7 @@ In addition, referring to an image tag means that the base image is subject to c
 
 <br /><br /><br />
 
-## ![✔] 8.13 Clean NODE_MODULE cache
+##  8.13 Clean NODE_MODULE cache
 
 **TL;DR:** After installing dependencies in a container remove the local cache. It doesn't make any sense to duplicate the dependencies for faster future installs since there won't be any further installs - A Docker image is immutable. Using a single line of code tens of MB (typically 10-50% of the image size) are shaved off
 
@@ -1380,7 +1381,7 @@ In addition, referring to an image tag means that the base image is subject to c
 
 <br /><br /><br />
 
-## ![✔] 8.14. Generic Docker practices
+##  8.14. Generic Docker practices
 
 **TL;DR:** This is a collection of Docker advice that is not related directly to Node.js - the Node implementation is not much different than any other language. Click read more to skim through.
 
@@ -1388,7 +1389,7 @@ In addition, referring to an image tag means that the base image is subject to c
 
 <br/><br /><br />
 
-## ![✔] 8.15. Lint your Dockerfile
+##  8.15. Lint your Dockerfile
 
 **TL;DR:** Linting your Dockerfile is an important step to identify issues in your Dockerfile which differ from best practices. By checking for potential flaws using a specialised Docker linter, performance and security improvements can be easily identified, saving countless hours of wasted time or security issues in production code.
 
