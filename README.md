@@ -1,6 +1,6 @@
 # [Node.js] Coding Convention and Best Practices
 
-## P/s: https://github.com/goldbergyoni/nodebestpractices.git
+## P/s: <a href="https://github.com/goldbergyoni/nodebestpractices.git">nodebestpractices</a>
 
 ## Table of Contents
 
